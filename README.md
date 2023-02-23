@@ -70,3 +70,26 @@ READ MORE: `https://github.com/stretchr/testify`
 
 First, we write TestMain function to connect to database
 Next, we write unit tests for all functions.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 6: Implement Database Transaction --
+
+Database Transaction:
+ - A single unit of work
+ - Often made up of multiple database operations
+For Example: Simple Bank To Tranfer 10 USD from Acc1 to Acc2:
+ - Create a tranfer recode with amount = 10
+ - Create an account entry for account 1 with amount = -10
+ - Create an account entry for account 2 with amount = 10
+ - Subtract 10 from the balance of account 1
+ - Add 10 to the balance of account 2
+2 Main Reason for using Database Transaction:
+ - To provide a reliable and consistent unit of work, even in case of system failure.
+ - To provide isolation between programs that access the database concurrently.
+ACID Properties:
+ - A (Atomicity) Either all operations complete successfully or the transaction fails and the database is unchanged.
+ - C (Consistency) The db state must be valid after the transaction. All constraints must be satisfied.
+ - I (Isolation) Concurrent transactions must not affect each other.
+ - D (Durability) Data written by a successful transaction must be recorded in persistent storage.
+

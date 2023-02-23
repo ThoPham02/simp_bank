@@ -3,7 +3,7 @@
 //   sqlc v1.17.0
 // source: account.sql
 
-package connect
+package db
 
 import (
 	"context"
@@ -98,9 +98,10 @@ func (q *Queries) ListAccounts(ctx context.Context) ([]Account, error) {
 	return items, nil
 }
 
-const updateAccount = `-- name: UpdateAccount :exec
+const updateAccount = `-- name: UpdateAccount :one
 UPDATE account SET owner = $2, balance = $3, currency = $4
 WHERE id = $1
+RETURNING id, owner, balance, currency, create_at
 `
 
 type UpdateAccountParams struct {
@@ -110,12 +111,20 @@ type UpdateAccountParams struct {
 	Currency string `json:"currency"`
 }
 
-func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) error {
-	_, err := q.db.ExecContext(ctx, updateAccount,
+func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) (Account, error) {
+	row := q.db.QueryRowContext(ctx, updateAccount,
 		arg.ID,
 		arg.Owner,
 		arg.Balance,
 		arg.Currency,
 	)
-	return err
+	var i Account
+	err := row.Scan(
+		&i.ID,
+		&i.Owner,
+		&i.Balance,
+		&i.Currency,
+		&i.CreateAt,
+	)
+	return i, err
 }

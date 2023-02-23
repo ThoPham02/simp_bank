@@ -3,7 +3,7 @@
 //   sqlc v1.17.0
 // source: tranfer.sql
 
-package connect
+package db
 
 import (
 	"context"

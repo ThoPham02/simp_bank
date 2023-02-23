@@ -44,20 +44,6 @@ Some features of SQLC:
 Install sqlc:
 For Ubuntu use command: `sudo snap install sqlc`
 
-I use WSL2 and I got an error: 
-cannot communicate with server: Post http://localhost/v2/snaps/sqlc: dial unix /run/snapd.socket: connect: no such file or directory
-To fix this error: See more in `https://github.com/microsoft/WSL/issues/5126`
- - First, install ubuntu-wsl2-systemd-script:
-    git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
-    cd ubuntu-wsl2-systemd-script/
-    bash ubuntu-wsl2-systemd-script.sh
-    systemctl
- - Now, use command: sudo snap install sqlc.
- - After this, i got another error: snap/bin is not PATH. to fix
-    nano ~/.bashrc
-    add export PATH="$PATH:/snap/bin"  below the bottom. Ctrl + X, Y, Enter to save.
- - Now, everything is excellent.
-
 To use sqlc: See more in `https://docs.sqlc.dev/en/latest/tutorials/getting-started-postgresql.html`
  - First, run command: `sqlc init`
  - Now, we are having file sqlc.yaml, custom sqlc.yaml.
@@ -66,5 +52,21 @@ To use sqlc: See more in `https://docs.sqlc.dev/en/latest/tutorials/getting-star
 
 --------------------------------------------------------------------------------------------------------------------------------
 
+-- Lecture 5: Write Unit Tests --
 
+3 Rules for writing unit tests:
+ - file test must end with _test.go
+ - function test must start with Test(with uppercase T letter)
+ - function test must accept t *testing.t as an agument
 
+There are many lib to write unit tests, we use `testify`.
+Testify have 4 sub-packages:
+ - `asert`  : return boolean
+ - `require`: same global function as assert package, 
+   but instead of returning a boolean result they terminate current test. 
+ - `mock`   :
+ - `suite`  :
+READ MORE: `https://github.com/stretchr/testify`
+
+First, we write TestMain function to connect to database
+Next, we write unit tests for all functions.

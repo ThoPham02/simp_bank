@@ -2,14 +2,12 @@
 
 Follow `dbdiagram.io` support to write database schema
 and export file sql to use in Lecture 2
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 2: Docker + PostgreSQL + Table Plus --
 
 use `Docker` to config PostgreSQL image and create Container PostgreSQL
 use `TablePlus` for database management
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 3: Database migration --
@@ -30,7 +28,6 @@ We use `migrate`. Following docs `https://github.com/golang-migrate/migrate`.
     See more use `migrate -help` command
  - Add sql to create database in up file and drop in down file.
  - To run migration file up and down, see command in `Makefile`.
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 4: Generate CRUD Golang code use sqlc --
@@ -49,7 +46,6 @@ To use sqlc: See more in `https://docs.sqlc.dev/en/latest/tutorials/getting-star
  - Now, we are having file sqlc.yaml, custom sqlc.yaml.
  - write query in db/query following docs.
  - To generate code, use command: `sqlc generate`
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 5: Write Unit Tests --
@@ -70,7 +66,6 @@ READ MORE: `https://github.com/stretchr/testify`
 
 First, we write TestMain function to connect to database
 Next, we write unit tests for all functions.
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 6: Implement Database Transaction --
@@ -92,7 +87,6 @@ ACID Properties:
  - C (Consistency) The db state must be valid after the transaction. All constraints must be satisfied.
  - I (Isolation) Concurrent transactions must not affect each other.
  - D (Durability) Data written by a successful transaction must be recorded in persistent storage.
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 7: DB Transaction lock and Handle deadlock --
@@ -100,9 +94,21 @@ ACID Properties:
 This lecture, we will learn about deadlock.
 Deadlock occurs because postgres is afraid that we will update the value in the foreign key field.
 To solve this problem, we can remove the foreign key(bad way) or add the Select statement `FOR NO KEY UPDATE`.
-
 --------------------------------------------------------------------------------------------------------------------------------
 
 -- Lecture 8: How to avoid deadlock --
 
 The best way to avoid deadlock is make sure that `application always acquire locks in a consistent order`
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 9: Insolation level in Mysql and PostgreSQL --
+
+There are 4 levels of isolation:
+ - Read Uncommitted
+ - Read Committed
+ - Repeatable Read
+ - Serializable
+Read More: 
+Mysql: `https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html`
+PostgreSQL: `https://www.postgresql.org/docs/current/transaction-iso.html`
+--------------------------------------------------------------------------------------------------------------------------------

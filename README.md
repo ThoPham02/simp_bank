@@ -105,3 +105,4 @@ To solve this problem, we can remove the foreign key(bad way) or add the Select 
 
 -- Lecture 8: How to avoid deadlock --
 
+The best way to avoid deadlock is make sure that `application always acquire locks in a consistent order`

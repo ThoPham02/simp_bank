@@ -78,8 +78,8 @@ Next, we write unit tests for all functions.
 Database Transaction:
  - A single unit of work
  - Often made up of multiple database operations
-For Example: Simple Bank To Tranfer 10 USD from Acc1 to Acc2:
- - Create a tranfer recode with amount = 10
+For Example: Simple Bank To Transfer 10 USD from Acc1 to Acc2:
+ - Create a transfer recode with amount = 10
  - Create an account entry for account 1 with amount = -10
  - Create an account entry for account 2 with amount = 10
  - Subtract 10 from the balance of account 1
@@ -92,4 +92,16 @@ ACID Properties:
  - C (Consistency) The db state must be valid after the transaction. All constraints must be satisfied.
  - I (Isolation) Concurrent transactions must not affect each other.
  - D (Durability) Data written by a successful transaction must be recorded in persistent storage.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 7: DB Transaction lock and Handle deadlock --
+
+This lecture, we will learn about deadlock.
+Deadlock occurs because postgres is afraid that we will update the value in the foreign key field.
+To solve this problem, we can remove the foreign key(bad way) or add the Select statement `FOR NO KEY UPDATE`.
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 8: How to avoid deadlock --
 

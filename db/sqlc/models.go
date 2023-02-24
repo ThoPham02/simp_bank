@@ -24,7 +24,7 @@ type Entry struct {
 	CreateAt time.Time `json:"create_at"`
 }
 
-type Tranfer struct {
+type Transfer struct {
 	ID            int64 `json:"id"`
 	FromAccountID int64 `json:"from_account_id"`
 	ToAccountID   int64 `json:"to_account_id"`

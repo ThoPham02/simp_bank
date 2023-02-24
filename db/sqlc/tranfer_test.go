@@ -10,86 +10,86 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func CreateTranfer(t *testing.T) Tranfer {
+func CreateTransfer(t *testing.T) Transfer {
 	account1 := CreateAccount(t)
 	account2 := CreateAccount(t)
 
-	arg := CreateTranferParams{
+	arg := CreateTransferParams{
 		FromAccountID: account1.ID,
 		ToAccountID:   account2.ID,
-        Amount:        util.RandomInt(0, 100),
+		Amount:        util.RandomInt(0, 100),
 	}
 
-	tranfer, err := testQueries.CreateTranfer(context.Background(), arg)
+	transfer, err := testQueries.CreateTransfer(context.Background(), arg)
 
 	require.NoError(t, err)
 
-	require.NotEmpty(t, tranfer.ID)
-	require.NotEmpty(t, tranfer.CreateAt)
+	require.NotEmpty(t, transfer.ID)
+	require.NotEmpty(t, transfer.CreateAt)
 
-	require.Equal(t, tranfer.FromAccountID, arg.FromAccountID)
-	require.Equal(t, tranfer.ToAccountID, arg.ToAccountID)
-	require.Equal(t, tranfer.Amount, arg.Amount)
+	require.Equal(t, transfer.FromAccountID, arg.FromAccountID)
+	require.Equal(t, transfer.ToAccountID, arg.ToAccountID)
+	require.Equal(t, transfer.Amount, arg.Amount)
 
-	return tranfer
+	return transfer
 }
 
-func TestCreateTranfer(t *testing.T) {
-	CreateTranfer(t)
+func TestCreateTransfer(t *testing.T) {
+	CreateTransfer(t)
 }
 
-func TestGetTranfer(t *testing.T) {
-	tranfer := CreateTranfer(t)
+func TestGetTransfer(t *testing.T) {
+	transfer := CreateTransfer(t)
 
-    tranfer, err := testQueries.GetTranfer(context.Background(), tranfer.ID)
+	transfer, err := testQueries.GetTransfer(context.Background(), transfer.ID)
 
-    require.NoError(t, err)
-    require.Equal(t, tranfer.ID, tranfer.ID)
-    require.Equal(t, tranfer.FromAccountID, tranfer.FromAccountID)
-    require.Equal(t, tranfer.ToAccountID, tranfer.ToAccountID)
-    require.Equal(t, tranfer.Amount, tranfer.Amount)
-    require.WithinDuration(t, tranfer.CreateAt, tranfer.CreateAt, time.Second)
+	require.NoError(t, err)
+	require.Equal(t, transfer.ID, transfer.ID)
+	require.Equal(t, transfer.FromAccountID, transfer.FromAccountID)
+	require.Equal(t, transfer.ToAccountID, transfer.ToAccountID)
+	require.Equal(t, transfer.Amount, transfer.Amount)
+	require.WithinDuration(t, transfer.CreateAt, transfer.CreateAt, time.Second)
 }
 
-func TestListTranfer(t *testing.T) {
+func TestListTransfer(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		CreateTranfer(t)
+		CreateTransfer(t)
 	}
 
-	tranfers, err := testQueries.ListTranfers(context.Background())
+	transfers, err := testQueries.ListTransfers(context.Background())
 
 	require.NoError(t, err)
-	for _, tranfer := range tranfers {
-		require.NotEmpty(t, tranfer);
-		require.NotEmpty(t, tranfer.ID)
-        require.NotEmpty(t, tranfer.CreateAt)
+	for _, transfer := range transfers {
+		require.NotEmpty(t, transfer)
+		require.NotEmpty(t, transfer.ID)
+		require.NotEmpty(t, transfer.CreateAt)
 	}
 }
 
-func TestUpdateTranfer(t *testing.T) { 
-	newTranfer := CreateTranfer(t)
+func TestUpdateTransfer(t *testing.T) {
+	newTransfer := CreateTransfer(t)
 	newAccount1 := CreateAccount(t)
 	newAccount2 := CreateAccount(t)
 
-	arg := UpdateTranferParams{
-        ID: newTranfer.ID,
+	arg := UpdateTransferParams{
+		ID:            newTransfer.ID,
 		FromAccountID: newAccount1.ID,
-		ToAccountID: newAccount2.ID,
-		Amount: util.RandomInt(0, 100),
-    }
+		ToAccountID:   newAccount2.ID,
+		Amount:        util.RandomInt(0, 100),
+	}
 
-    err := testQueries.UpdateTranfer(context.Background(), arg)
+	err := testQueries.UpdateTransfer(context.Background(), arg)
 
-    require.NoError(t, err)
+	require.NoError(t, err)
 }
-func TestDeleteTranfer(t *testing.T) {
-	newTranfer := CreateTranfer(t)
+func TestDeleteTransfer(t *testing.T) {
+	newTransfer := CreateTransfer(t)
 
-	err := testQueries.DeleteTranfer(context.Background(), newTranfer.ID)
+	err := testQueries.DeleteTransfer(context.Background(), newTransfer.ID)
 	require.NoError(t, err)
 
-	tranfer, err := testQueries.GetTranfer(context.Background(), newTranfer.ID)
+	transfer, err := testQueries.GetTransfer(context.Background(), newTransfer.ID)
 	require.Error(t, err)
 	require.EqualError(t, err, sql.ErrNoRows.Error())
-	require.Empty(t, tranfer)
+	require.Empty(t, transfer)
 }

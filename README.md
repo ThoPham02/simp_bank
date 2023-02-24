@@ -112,3 +112,13 @@ Read More:
 Mysql: `https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html`
 PostgreSQL: `https://www.postgresql.org/docs/current/transaction-iso.html`
 --------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 10: Setup Github Action to run automated test --
+
+We can trigger workflow y three ways event, scheduled or manually.
+A workflow consists of one or more jobs.
+A Job is composed of a single or multiple steps.
+Each step can have one or more actions
+All job inside workflow normally run in parallel unless they depend on each other.That case they run serially.
+Each Job will be run separaely by a specific runner.
+The runners will report progress locks and results of the jobs back to the github.

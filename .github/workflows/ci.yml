@@ -12,7 +12,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
-    service:
+    services:
       postgres:
         image: postgres:15-alpine
         env:

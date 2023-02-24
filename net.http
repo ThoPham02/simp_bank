@@ -1,0 +1,24 @@
+POST http://localhost:8000/account
+Content-Type: "application/json"
+
+{
+    "owner": "Tho Pham",
+    "currency": "USD"
+}
+
+###
+GET http://localhost:8000/account/1
+
+###
+GET http://localhost:8000/accounts?page=2&&page_size=10
+###
+PUT  http://localhost:8000/account/1
+Content-Type: "application/json"
+
+{
+    "owner": "Update Account",
+    "balance": 100,
+    "currency": "USD"
+}
+###
+DELETE  http://localhost:8000/account/2

@@ -2,31 +2,30 @@ package main
 
 import (
 	"database/sql"
+	"log"
 
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/ThoPham02/simp_bank/api"
+	db "github.com/ThoPham02/simp_bank/db/sqlc"
 	_ "github.com/lib/pq"
 )
 
+const (
+	dbDriver      = "postgres"
+	dbSource      = "postgres://root:secret@localhost:5432/simp_bank?sslmode=disable"
+	serverAddress = "localhost:8000"
+)
+
 func main() {
-	db, err := sql.Open("postgres", "postgres://root:secret@localhost:5432/simp_bank?sslmode=disable")
+	conn, err := sql.Open("postgres", "postgres://root:secret@localhost:5432/simp_bank?sslmode=disable")
 	if err != nil {
-		panic(err)
+		log.Fatal("can't connect to database")
 	}
 
-	
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
-	if err != nil {
-		panic(err)
-	}
+	store := db.NewStore(conn)
+	server := api.NewServer(store)
 
-
-	migrate, err := migrate.NewWithDatabaseInstance(
-		"file:db/migration",
-		"postgres", driver)
+	err = server.Router.Run(serverAddress)
 	if err != nil {
-		panic(err)
+		log.Fatal("can't connect to server")
 	}
-	migrate.Up()
 }

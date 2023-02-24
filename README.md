@@ -126,3 +126,8 @@ The runners will report progress locks and results of the jobs back to the githu
 ReadMore: 
 Github Action: 
 --------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 11: RESTful API with Go Gin --
+Read More: `https://github.com/gin-gonic/gin`
+--------------------------------------------------------------------------------------------------------------------------------
+

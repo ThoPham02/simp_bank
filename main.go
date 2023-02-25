@@ -6,17 +6,17 @@ import (
 
 	"github.com/ThoPham02/simp_bank/api"
 	db "github.com/ThoPham02/simp_bank/db/sqlc"
+	"github.com/ThoPham02/simp_bank/util"
 	_ "github.com/lib/pq"
 )
 
-const (
-	dbDriver      = "postgres"
-	dbSource      = "postgres://root:secret@localhost:5432/simp_bank?sslmode=disable"
-	serverAddress = "localhost:8000"
-)
-
 func main() {
-	conn, err := sql.Open("postgres", "postgres://root:secret@localhost:5432/simp_bank?sslmode=disable")
+	config, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("can't load config")
+	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("can't connect to database")
 	}
@@ -24,7 +24,7 @@ func main() {
 	store := db.NewStore(conn)
 	server := api.NewServer(store)
 
-	err = server.Router.Run(serverAddress)
+	err = server.Router.Run(config.ServerAddress)
 	if err != nil {
 		log.Fatal("can't connect to server")
 	}

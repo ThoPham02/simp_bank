@@ -4,7 +4,7 @@ Content-Type: "application/json"
 
 {
     "owner": "Tho Pham",
-    "currency": "USD"
+    "currency": "ASD"
 }
 
 ###
@@ -23,3 +23,14 @@ Content-Type: "application/json"
 }
 ###
 DELETE  http://localhost:8000/account/2
+
+###
+POST http://localhost:8000/transfer
+Content-Type: "application/json"
+
+{
+    "from_account_id": 9,
+    "to_account_id": 10,
+    "amount": 100,
+    "currency": "USD"
+}

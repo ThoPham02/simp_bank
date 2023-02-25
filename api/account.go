@@ -10,7 +10,7 @@ import (
 
 type createAccountParam struct {
 	Owner    string `json:"owner" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency string `json:"currency" binding:"required,currency"`
 }
 
 func (server *Server) createAccount(ctx *gin.Context) {
@@ -43,6 +43,7 @@ type getAccountRequest struct {
 func (server *Server) getAccount(ctx *gin.Context) {
 	var req getAccountRequest
 	if err := ctx.BindUri(&req); err != nil {
+		HandleValidatorError(err)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
@@ -88,12 +89,13 @@ type updateAccountRequestUri struct {
 type updateAccountRequestJson struct {
 	Owner    string `json:"owner" binding:"required"`
 	Balance  int64  `json:"balance" binding:"required"`
-	Currency string `json:"currency" binding:"required,oneof=USD EUR"`
+	Currency string `json:"currency" binding:"required,currency"`
 }
 
 func (server *Server) updateAccount(ctx *gin.Context) {
 	var reqJson updateAccountRequestJson
 	if err := ctx.BindJSON(&reqJson); err != nil {
+		HandleValidatorError(err)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}

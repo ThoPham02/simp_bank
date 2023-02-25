@@ -141,3 +141,11 @@ Change Store to SQLStore and add Store interface. SQLStore will implement Store 
 Use mockgen to generate file store.go(mock store).
 
 Write code to know how to setup Test API.
+--------------------------------------------------------------------------------------------------------------------------------
+
+-- Lecture 13: Custom Validator Bindings --
+
+use package `github.com/go-playground/validator/v10`
+and package `github.com/gin-gonic/binding` (binding.Validator.Engine())
+Learn how to custom validator bindings.....
+--------------------------------------------------------------------------------------------------------------------------------

@@ -14,5 +14,7 @@ sqlc:
 	sudo docker run --rm -v "$$(pwd):/src" -w /src kjconroy/sqlc:1.17.0 /workspace/sqlc generate
 test:
 	go test -v -cover ./...
+mock:
+	mockgen -destination ./db/mock/store.go -package mockdb github.com/ThoPham02/simp_bank/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migrateup migratedown sqlc sqlcinit test
+.PHONY: postgres createdb dropdb migrateup migratedown sqlc sqlcinit test mock

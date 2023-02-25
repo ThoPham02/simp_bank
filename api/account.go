@@ -37,7 +37,7 @@ func (server *Server) createAccount(ctx *gin.Context) {
 }
 
 type getAccountRequest struct {
-	ID int64 `uri:"id" json:"id"`
+	ID int64 `uri:"id" json:"id" binding:"required,min=1"`
 }
 
 func (server *Server) getAccount(ctx *gin.Context) {
@@ -49,7 +49,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 	account, err := server.Store.GetAccount(ctx, req.ID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			ctx.JSON(http.StatusOK, nil)
+			ctx.JSON(http.StatusNotFound, err)
 			return
 		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))

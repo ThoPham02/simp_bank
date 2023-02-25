@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -13,7 +12,6 @@ func TestTransferTx(t *testing.T) {
 
 	account1 := CreateAccount(t)
 	account2 := CreateAccount(t)
-	fmt.Printf("Before:: %v %v \n", account1.Balance, account2.Balance)
 
 	// run n concurrent transfer transactions
 	n := 5
@@ -23,11 +21,8 @@ func TestTransferTx(t *testing.T) {
 	results := make(chan TransferTxResult)
 
 	for i := 0; i < n; i++ {
-		txName := fmt.Sprintf("tx %d", i)
-
 		go func() {
-			ctx := context.WithValue(context.Background(), txKey, txName)
-			result, err := store.TransferTx(ctx, TransferTxParams{
+			result, err := store.TransferTx(context.Background(), TransferTxParams{
 				FromAccountID: account1.ID,
 				ToAccountID:   account2.ID,
 				Amount:        amount,
@@ -81,7 +76,6 @@ func TestTransferTx(t *testing.T) {
 		toAccount := result.ToAccount
 		require.NotEmpty(t, toAccount)
 		require.Equal(t, account2.ID, toAccount.ID)
-		fmt.Printf("TX:: %v %v \n", fromAccount.Balance, toAccount.Balance)
 
 		// check account's balance
 		diff1 := account1.Balance - fromAccount.Balance
@@ -91,7 +85,6 @@ func TestTransferTx(t *testing.T) {
 		require.True(t, diff1%amount == 0)
 
 		k := int(diff1 / amount)
-		fmt.Printf("K:: %d", k)
 		require.True(t, k > 0 && k <= n)
 		require.NotContains(t, existed, k)
 		existed[k] = true
@@ -101,11 +94,9 @@ func TestTransferTx(t *testing.T) {
 
 	updateAccount2, err := testQueries.GetAccount(context.Background(), account2.ID)
 	require.NoError(t, err)
-	fmt.Printf("Before:: %v %v \n", updateAccount1.Balance, updateAccount2.Balance)
 
 	require.Equal(t, account1.Balance-int64(n)*amount, updateAccount1.Balance)
 	require.Equal(t, account2.Balance+int64(n)*amount, updateAccount2.Balance)
-
 }
 
 func TestTransferTxDeadlock(t *testing.T) {
@@ -113,8 +104,6 @@ func TestTransferTxDeadlock(t *testing.T) {
 
 	account1 := CreateAccount(t)
 	account2 := CreateAccount(t)
-	fmt.Printf("Before:: %v %v \n", account1.Balance, account2.Balance)
-
 	// run n concurrent transfer transactions
 	n := 10
 	amount := int64(10)
@@ -122,8 +111,6 @@ func TestTransferTxDeadlock(t *testing.T) {
 	errs := make(chan error)
 
 	for i := 0; i < n; i++ {
-		txName := fmt.Sprintf("tx %d", i)
-
 		fromAccountID := account1.ID
 		toAccountID := account2.ID
 
@@ -133,8 +120,7 @@ func TestTransferTxDeadlock(t *testing.T) {
 		}
 
 		go func() {
-			ctx := context.WithValue(context.Background(), txKey, txName)
-			_, err := store.TransferTx(ctx, TransferTxParams{
+			_, err := store.TransferTx(context.Background(), TransferTxParams{
 				FromAccountID: fromAccountID,
 				ToAccountID:   toAccountID,
 				Amount:        amount,
@@ -154,7 +140,6 @@ func TestTransferTxDeadlock(t *testing.T) {
 
 	updateAccount2, err := testQueries.GetAccount(context.Background(), account2.ID)
 	require.NoError(t, err)
-	fmt.Printf("Before:: %v %v \n", updateAccount1.Balance, updateAccount2.Balance)
 
 	require.Equal(t, account1.Balance, updateAccount1.Balance)
 	require.Equal(t, account2.Balance, updateAccount2.Balance)

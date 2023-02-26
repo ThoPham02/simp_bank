@@ -85,7 +85,7 @@ For Example: Simple Bank To Transfer 10 USD from Acc1 to Acc2:
 2 Main Reason for using Database Transaction:
  - To provide a reliable and consistent unit of work, even in case of system failure.
  - To provide isolation between programs that access the database concurrently.
- 
+
 ACID Properties:
  - A (Atomicity) Either all operations complete successfully or the transaction fails and the database is unchanged.
  - C (Consistency) The db state must be valid after the transaction. All constraints must be satisfied.
@@ -112,6 +112,7 @@ There are 4 levels of isolation:
  - Read Committed
  - Repeatable Read
  - Serializable
+
 Read More: 
 Mysql: `https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html`
 PostgreSQL: `https://www.postgresql.org/docs/current/transaction-iso.html`
@@ -152,5 +153,11 @@ Write code to know how to setup Test API.
 --------------------------------------------------------------------------------------------------------------------------------
 
 use package `github.com/go-playground/validator/v10`
-and package `github.com/gin-gonic/binding` (binding.Validator.Engine())
+and sub-package of Gin `github.com/gin-gonic/binding` (binding.Validator.Engine())
 Learn how to custom validator bindings.....
+
+-- Lecture 15: Add Users Table --
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+

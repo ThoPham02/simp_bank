@@ -4,6 +4,8 @@ createdb:
 	docker exec -it postgres createdb --username=root --owner=root simp_bank
 dropdb:
 	docker exec -it postgres dropdb simp_bank
+migrate:
+	migrate create -ext sql -dir db/migration -seq add_users
 migrateup:
 	migrate -path db/migration -database "postgres://root:secret@localhost:5432/simp_bank?sslmode=disable" -verbose up
 migratedown:

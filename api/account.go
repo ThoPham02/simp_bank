@@ -16,7 +16,7 @@ type createAccountParam struct {
 func (server *Server) createAccount(ctx *gin.Context) {
 	var req createAccountParam
 	if err := ctx.BindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		ctx.JSON(http.StatusBadRequest, errorRequestBinding(err))
 		return
 	}
 
@@ -44,7 +44,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 	var req getAccountRequest
 	if err := ctx.BindUri(&req); err != nil {
 		HandleValidatorError(err)
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		ctx.JSON(http.StatusBadRequest, errorRequestBinding(err))
 		return
 	}
 	account, err := server.Store.GetAccount(ctx, req.ID)
@@ -67,7 +67,7 @@ type getListAccountsRequest struct {
 func (server *Server) getListAccounts(ctx *gin.Context) {
 	var req getListAccountsRequest
 	if err := ctx.ShouldBindQuery(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		ctx.JSON(http.StatusBadRequest, errorRequestBinding(err))
 		return
 	}
 
@@ -96,12 +96,12 @@ func (server *Server) updateAccount(ctx *gin.Context) {
 	var reqJson updateAccountRequestJson
 	if err := ctx.BindJSON(&reqJson); err != nil {
 		HandleValidatorError(err)
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		ctx.JSON(http.StatusBadRequest, errorRequestBinding(err))
 		return
 	}
 	var reqUri updateAccountRequestUri
 	if err := ctx.BindUri(&reqUri); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		ctx.JSON(http.StatusBadRequest, errorRequestBinding(err))
 		return
 	}
 

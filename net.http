@@ -34,3 +34,14 @@ Content-Type: "application/json"
     "amount": 100,
     "currency": "USD"
 }
+
+###
+POST http://localhost:8000/user
+Content-Type: "application/json"
+
+{
+    "user_name": "tholgbg2",
+    "password": "secret",
+    "full_name": "Tho Pham",
+    "email": "tholgbg2@gmail.com"
+}

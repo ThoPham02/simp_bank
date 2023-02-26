@@ -20,6 +20,8 @@ func NewServer(store db.Store) *Server {
 		v.RegisterValidation("currency", ValidCurrency)
 	}
 
+	router.POST("/user", server.createUser)
+
 	router.POST("/account", server.createAccount)
 	router.GET("/account/:id", server.getAccount)
 	router.GET("/accounts", server.getListAccounts)
@@ -30,10 +32,4 @@ func NewServer(store db.Store) *Server {
 
 	server.Router = router
 	return server
-}
-
-func errorResponse(err error) gin.H {
-	customErr := HandleValidatorError(err)
-
-	return gin.H{"error": customErr}
 }
